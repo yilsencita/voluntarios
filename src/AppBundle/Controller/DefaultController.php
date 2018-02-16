@@ -16,16 +16,25 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
-        ]);
+//        return $this->render('default/index.html.twig', [
+//            'base_dir' => realpath($this->getParameter('kernel.project_dir')).DIRECTORY_SEPARATOR,
+//        ]);
+        return $this->redirectToRoute('listVolunteers');
     }
 
     /**
-     * @Route("/prueba", name="prueba")
+     * @Route("/listVolunteers", name="listVolunteers")
      */
-    public function pruebaAction(Request $request)
+    public function listVolunteersAction(Request $request)
     {
-        die('muere!');
+        return $this->render('volunteer/list.html.twig',array('title' => 'Volunteers List'));
+    }
+
+    /**
+     * @Route("/createVolunteer", name="createVolunteer")
+     */
+    public function createVolunteerAction(Request $request)
+    {
+        return $this->render('volunteer/create.html.twig',array('title' => 'New Volunteer'));
     }
 }
