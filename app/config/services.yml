@@ -33,3 +33,9 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    volunteers.volunteer_manager:
+        class: AppBundle\Services\VolunteerManager
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'

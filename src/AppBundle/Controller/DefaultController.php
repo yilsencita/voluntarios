@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Volunteer;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -36,15 +37,7 @@ class DefaultController extends Controller
      */
     public function createVolunteerAction(Request $request)
     {
-        $newVolunteer = new Volunteer();
-        $newVolunteer->setDni('06628952F');
-        $newVolunteer->setName('Arthia');
-        $newVolunteer->setSurname('Fernandez Zevallos');
-        $newVolunteer->setBirthdate(\DateTime::createFromFormat('Y-m-d','1983-02-14'));
-        $newVolunteer->setPhone('600265701');
-        $newVolunteer->setEmail('yilsen@gmail.com');
-        $newVolunteer->setAddress('Calle Estremera 3, 3ºB, 28051, Madrid');
-        $newVolunteer->setState('Selected');
+        $newVolunteer = $this->get('volunteers.volunteer_manager')->createRandomVolunteer();
 
         return $this->render('volunteer/view.html.twig',array('title' => 'New Volunteer','volunteer' => $newVolunteer));
     }
