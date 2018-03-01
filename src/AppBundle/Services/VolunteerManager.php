@@ -34,9 +34,14 @@ class VolunteerManager
         $newVolunteer->setAddress('Calle Estremera 3, 3ºB, 28051, Madrid');
         $newVolunteer->setState('Selected');
 
-        $this->entityManager->persist($newVolunteer);
-        $this->entityManager->flush();
+        $this->saveVolunteer($newVolunteer);
 
         return $newVolunteer;
+    }
+
+    public function saveVolunteer($volunteer)
+    {
+        $this->entityManager->persist($volunteer);
+        $this->entityManager->flush();
     }
 }

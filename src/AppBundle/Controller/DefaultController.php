@@ -4,6 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Volunteer;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -33,13 +36,38 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/createVolunteer", name="createVolunteer")
+     * @Route("/createVolunteer/{dni}", name="createVolunteer", defaults={"dni"=null})
      */
-    public function createVolunteerAction(Request $request)
+    public function createVolunteerAction(Request $request, $dni)
     {
-        $newVolunteer = $this->get('volunteers.volunteer_manager')->createRandomVolunteer();
+        //$newVolunteer = $this->get('volunteers.volunteer_manager')->createRandomVolunteer();
 
-        return $this->render('volunteer/view.html.twig',array('title' => 'New Volunteer','volunteer' => $newVolunteer));
+        if (!empty($dni)) {
+            $volunteer = $this->get('doctrine.orm.entity_manager')->find(Volunteer::class, $dni);
+        } else {
+            $volunteer = new Volunteer();
+        }
+
+        $form = $this->createFormBuilder($volunteer)
+            ->add('Dni', TextType::class)
+            ->add('Name', TextType::class)
+            ->add('Surname', TextType::class)
+            ->add('Birthdate', DateType::class)
+            ->add('Phone', TextType::class)
+            ->add('Email', EmailType::class)
+            ->add('Address', TextType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $volunteer = $form->getData();
+            $this->get('volunteers.volunteer_manager')->saveVolunteer($volunteer);
+            return $this->redirectToRoute('createVolunteer', array('dni' => $volunteer->getDni()));
+        }
+
+//        return $this->render('volunteer/view.html.twig',array('title' => 'New Volunteer','volunteer' => $newVolunteer));
+        return $this->render('volunteer/view.html.twig', array('title' => 'New Volunteer', 'form'=>$form->createView()));
     }
 
     /**

@@ -4,9 +4,13 @@
     {{ title }}
 {% endblock %}
 {% block body %}
-    {{ volunteer.dni }}
-    <br/>
-    {{ volunteer.name }}
-    <br/>
-    {{ volunteer.surname }}
+    {{ form_start(form) }}
+
+    {{ form_widget(form) }}
+    {#{{ form_label(form.Phone) }}#}
+    {#{{ form_widget(form.Phone) }}#}
+
+    <input type="submit" name="Save" value="Save"/>
+
+    {{ form_end(form) }}
 {% endblock %}
