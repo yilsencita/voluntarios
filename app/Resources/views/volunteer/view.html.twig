@@ -4,13 +4,24 @@
     {{ title }}
 {% endblock %}
 {% block body %}
-    {{ form_start(form) }}
+    {#{{ form_start(form) }}#}
 
-    {{ form_widget(form) }}
+    {#{{ form_widget(form) }}#}
+
     {#{{ form_label(form.Phone) }}#}
     {#{{ form_widget(form.Phone) }}#}
 
-    <input type="submit" name="Save" value="Save"/>
+    <li>{{ volunteer.Dni }}</li>
+    <li>{{ volunteer.Name }}</li>
+    <li>{{ volunteer.Surname }}</li>
+    <li>{{ volunteer.Birthdate|date("m/d/Y") }}</li>
+    <li>{{ volunteer.Phone }}</li>
+    <li>{{ volunteer.Email }}</li>
+    <li>{{ volunteer.Address }}</li>
+    <li>{{ volunteer.State }}</li>
 
-    {{ form_end(form) }}
+    <a href="{{ path('viewVolunteerForm') }}"><input type="button" name="Edit" value="Edit"/></a>
+    {#<input type="submit" name="Save" value="Save"/>#}
+
+    {#{{ form_end(form) }}#}
 {% endblock %}

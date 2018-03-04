@@ -3,4 +3,10 @@
 {% block title %}
     {{ title }}
 {% endblock %}
-{% block body %}{% endblock %}
+{% block body %}
+    {% for volunteer in list %}
+        <li>{{ volunteer.Dni }}
+        {{ volunteer.Name }}
+        {{ volunteer.Surname }} <a href="{{ path('viewVolunteer',{'dni':volunteer.Dni}) }}"><input type="button" value="View"/></a> </li>
+    {% endfor %}
+{% endblock %}

@@ -44,4 +44,14 @@ class VolunteerManager
         $this->entityManager->persist($volunteer);
         $this->entityManager->flush();
     }
+
+    public function listVolunteers()
+    {
+        return $this->entityManager->getRepository('AppBundle:Volunteer')->findAll();
+    }
+
+    public function listVolunteer($dni)
+    {
+        return $this->entityManager->find('AppBundle:Volunteer',$dni);
+    }
 }

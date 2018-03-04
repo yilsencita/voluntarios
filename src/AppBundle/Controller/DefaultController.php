@@ -32,7 +32,8 @@ class DefaultController extends Controller
      */
     public function listVolunteersAction(Request $request)
     {
-        return $this->render('volunteer/list.html.twig',array('title' => 'Volunteers List'));
+        $volunteers = $this->get('volunteers.volunteer_manager')->listVolunteers();
+        return $this->render('volunteer/list.html.twig',array('title' => 'Volunteers List','list' => $volunteers));
     }
 
     /**
@@ -70,11 +71,26 @@ class DefaultController extends Controller
         return $this->render('volunteer/view.html.twig', array('title' => 'New Volunteer', 'form'=>$form->createView()));
     }
 
-    /**
-     * @Route("/viewVolunteer", name="viewVolunteer")
-     */
-    public function viewVolunteerAction(Request $request)
+    public function updateVolunteerAction(Request $request)
     {
-        return $this->render('volunteer/view.html.twig',array('title' => 'New Volunteer'));
+
+    }
+
+    /**
+     * @Route("/viewVolunteerForm", name="viewVolunteerForm")
+     * @param Request $request
+     */
+    public function viewVolunteerFormAction(Request $request)
+    {
+
+    }
+
+    /**
+     * @Route("/viewVolunteer/{dni}", name="viewVolunteer")
+     */
+    public function viewVolunteerAction(Request $request, $dni)
+    {
+        $volunteer = $this->get('volunteers.volunteer_manager')->listVolunteer($dni);
+        return $this->render('volunteer/view.html.twig',array('title' => 'New Volunteer', 'volunteer' => $volunteer));
     }
 }
