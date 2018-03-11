@@ -20,7 +20,7 @@
     <li>{{ volunteer.Address }}</li>
     <li>{{ volunteer.State }}</li>
 
-    <a href="{{ path('viewVolunteerForm') }}"><input type="button" name="Edit" value="Edit"/></a>
+    <a href="{{ path('viewVolunteerForm', {'dni' : volunteer.Dni}) }}"><input type="button" name="Edit" value="Edit"/></a>
     {#<input type="submit" name="Save" value="Save"/>#}
 
     {#{{ form_end(form) }}#}

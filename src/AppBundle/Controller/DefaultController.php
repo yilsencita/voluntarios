@@ -33,7 +33,7 @@ class DefaultController extends Controller
     public function listVolunteersAction(Request $request)
     {
         $volunteers = $this->get('volunteers.volunteer_manager')->listVolunteers();
-        return $this->render('volunteer/list.html.twig',array('title' => 'Volunteers List','list' => $volunteers));
+        return $this->render('volunteer/list.html.twig', array('title' => 'Volunteers List', 'list' => $volunteers));
     }
 
     /**
@@ -61,14 +61,14 @@ class DefaultController extends Controller
 
         $form->handleRequest($request);
 
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $volunteer = $form->getData();
             $this->get('volunteers.volunteer_manager')->saveVolunteer($volunteer);
             return $this->redirectToRoute('createVolunteer', array('dni' => $volunteer->getDni()));
         }
 
 //        return $this->render('volunteer/view.html.twig',array('title' => 'New Volunteer','volunteer' => $newVolunteer));
-        return $this->render('volunteer/view.html.twig', array('title' => 'New Volunteer', 'form'=>$form->createView()));
+        return $this->render('volunteer/view.html.twig', array('title' => 'New Volunteer', 'form' => $form->createView()));
     }
 
     public function updateVolunteerAction(Request $request)
@@ -77,12 +77,53 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/viewVolunteerForm", name="viewVolunteerForm")
+     * @Route("/viewVolunteerForm/{dni}", name="viewVolunteerForm")
      * @param Request $request
      */
-    public function viewVolunteerFormAction(Request $request)
+    public function viewVolunteerFormAction(Request $request, $dni)
     {
+        $volunteer = $this->get('doctrine.orm.entity_manager')->find(Volunteer::class, $dni);
+        $form = $this->createFormBuilder($volunteer)
+            ->setAction($this->generateUrl('handleVolunteerForm', array('dni'=> $dni)))
+            ->add('Dni', TextType::class)
+            ->add('Name', TextType::class)
+            ->add('Surname', TextType::class)
+            ->add('Birthdate', DateType::class)
+            ->add('Phone', TextType::class)
+            ->add('Email', EmailType::class)
+            ->add('Address', TextType::class)
+            ->getForm();
 
+//        $form->handleRequest($request);
+        return $this->render('volunteer/viewForm.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/handleVolunteerForm/{dni}", name="handleVolunteerForm")
+     */
+    public function handleVolunteerFormAction(Request $request, $dni)
+    {
+        $volunteer = $this->get('doctrine.orm.entity_manager')->find(Volunteer::class, $dni);
+        $form = $this->createFormBuilder($volunteer)
+            ->add('Dni', TextType::class)
+            ->add('Name', TextType::class)
+            ->add('Surname', TextType::class)
+            ->add('Birthdate', DateType::class)
+            ->add('Phone', TextType::class)
+            ->add('Email', EmailType::class)
+            ->add('Address', TextType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $volunteer = $form->getData();
+            $this->get('volunteers.volunteer_manager')->saveVolunteer($volunteer);
+
+            return $this->redirectToRoute('viewVolunteer', array('dni' => $volunteer->getDni()));
+        }
+
+        return $this->redirectToRoute('listVolunteers');
     }
 
     /**
@@ -91,6 +132,6 @@ class DefaultController extends Controller
     public function viewVolunteerAction(Request $request, $dni)
     {
         $volunteer = $this->get('volunteers.volunteer_manager')->listVolunteer($dni);
-        return $this->render('volunteer/view.html.twig',array('title' => 'New Volunteer', 'volunteer' => $volunteer));
+        return $this->render('volunteer/view.html.twig', array('title' => 'New Volunteer', 'volunteer' => $volunteer));
     }
 }
