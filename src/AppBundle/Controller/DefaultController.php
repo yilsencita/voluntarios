@@ -3,7 +3,10 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Volunteer;
+use AppBundle\Lib\StatusVolunteer;
+use Doctrine\DBAL\Types\ArrayType;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -92,6 +95,7 @@ class DefaultController extends Controller
             ->add('Phone', TextType::class)
             ->add('Email', EmailType::class)
             ->add('Address', TextType::class)
+            ->add('State', ChoiceType::class, array('choices' => StatusVolunteer::getStates()))
             ->getForm();
 
 //        $form->handleRequest($request);
@@ -112,6 +116,7 @@ class DefaultController extends Controller
             ->add('Phone', TextType::class)
             ->add('Email', EmailType::class)
             ->add('Address', TextType::class)
+            ->add('State', ChoiceType::class, array('choices' => StatusVolunteer::getStates()))
             ->getForm();
 
         $form->handleRequest($request);
@@ -134,4 +139,5 @@ class DefaultController extends Controller
         $volunteer = $this->get('volunteers.volunteer_manager')->listVolunteer($dni);
         return $this->render('volunteer/view.html.twig', array('title' => 'New Volunteer', 'volunteer' => $volunteer));
     }
+
 }
