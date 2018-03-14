@@ -8,8 +8,51 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * PositionKind
+ *
+ * @ORM\Table(name="positionKind")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PositionKindRepository")
+ */
 class PositionKind
 {
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(name="id", type="integer", unique=true)
+     */
+    private $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=45)
+     */
+    private $name;
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
 }
