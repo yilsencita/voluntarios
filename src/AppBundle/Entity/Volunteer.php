@@ -12,27 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Volunteer
 {
-    /**
-     * @return mixed
-     */
-    public function getPosition()
-    {
-        return $this->position;
-    }
-
-    /**
-     * @param mixed $position
-     */
-    public function setPosition($position)
-    {
-        $this->position = $position;
-    }
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Position", inversedBy="volunteers")
-     * @ORM\JoinColumn(name="position_id", referencedColumnName="id")
-     */
-    private $position;
 
     /**
      * @var string
@@ -90,6 +69,11 @@ class Volunteer
      */
     private $state;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Position", inversedBy="volunteers")
+     * @ORM\JoinColumn(name="position_id", referencedColumnName="id")
+     */
+    private $position;
 
     /**
      * Set dni
@@ -281,6 +265,22 @@ class Volunteer
     public function getState()
     {
         return $this->state;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPosition()
+    {
+        return $this->position;
+    }
+
+    /**
+     * @param mixed $position
+     */
+    public function setPosition($position)
+    {
+        $this->position = $position;
     }
 }
 

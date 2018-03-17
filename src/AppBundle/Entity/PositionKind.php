@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class PositionKind
 {
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -31,6 +32,11 @@ class PositionKind
      * @ORM\Column(name="name", type="string", length=45)
      */
     private $name;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Position", mappedBy="positionKind")
+     */
+    private $positions;
 
     /**
      * @return string
@@ -54,5 +60,21 @@ class PositionKind
     public function setName($name)
     {
         $this->name = $name;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPositions()
+    {
+        return $this->positions;
+    }
+
+    /**
+     * @param mixed $positions
+     */
+    public function setPositions($positions)
+    {
+        $this->positions = $positions;
     }
 }

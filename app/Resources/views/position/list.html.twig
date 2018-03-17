@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block body %}
+    {% for position in list %}
+        <li>{% include 'position/abstractPosition.html.twig' with {'position' : position} %}</li>
+    {% endfor %}
+{% endblock %}

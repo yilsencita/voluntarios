@@ -39,3 +39,9 @@ services:
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
+
+    volunteers.position_manager:
+        class: AppBundle\Services\PositionManager
+        public: true
+        arguments:
+            - '@doctrine.orm.entity_manager'

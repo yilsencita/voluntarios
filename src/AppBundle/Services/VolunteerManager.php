@@ -45,12 +45,12 @@ class VolunteerManager
         $this->entityManager->flush();
     }
 
-    public function listVolunteers()
+    public function volunteersList()
     {
         return $this->entityManager->getRepository('AppBundle:Volunteer')->findAll();
     }
 
-    public function listVolunteer($dni)
+    public function volunteer($dni)
     {
         return $this->entityManager->find('AppBundle:Volunteer',$dni);
     }

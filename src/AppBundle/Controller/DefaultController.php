@@ -35,7 +35,7 @@ class DefaultController extends Controller
      */
     public function listVolunteersAction(Request $request)
     {
-        $volunteers = $this->get('volunteers.volunteer_manager')->listVolunteers();
+        $volunteers = $this->get('volunteers.volunteer_manager')->volunteersList();
         return $this->render('volunteer/list.html.twig', array('title' => 'Volunteers List', 'list' => $volunteers));
     }
 
@@ -136,7 +136,7 @@ class DefaultController extends Controller
      */
     public function viewVolunteerAction(Request $request, $dni)
     {
-        $volunteer = $this->get('volunteers.volunteer_manager')->listVolunteer($dni);
+        $volunteer = $this->get('volunteers.volunteer_manager')->volunteer($dni);
         return $this->render('volunteer/view.html.twig', array('title' => 'New Volunteer', 'volunteer' => $volunteer));
     }
 

@@ -19,27 +19,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Position
 {
     /**
-     * @return mixed
-     */
-    public function getVolunteers()
-    {
-        return $this->volunteers;
-    }
-
-    /**
-     * @param mixed $volunteers
-     */
-    public function setVolunteers($volunteers)
-    {
-        $this->volunteers = $volunteers;
-    }
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Volunteer", mappedBy="position")
-     */
-    private $volunteers;
-
-    /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(name="id", type="integer", unique=true)
@@ -59,6 +38,17 @@ class Position
      * @ORM\Column(name="shift", type="string", length=15)
      */
     private $shift;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Volunteer", mappedBy="position")
+     */
+    private $volunteers;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PositionKind", inversedBy="positions")
+     * @ORM\JoinColumn(name="positionKind_id", referencedColumnName="id")
+     */
+    private $positionKind;
 
     /**
      * @return mixed
@@ -98,5 +88,37 @@ class Position
     public function setShift($shift)
     {
         $this->shift = $shift;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVolunteers()
+    {
+        return $this->volunteers;
+    }
+
+    /**
+     * @param mixed $volunteers
+     */
+    public function setVolunteers($volunteers)
+    {
+        $this->volunteers = $volunteers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPositionKind()
+    {
+        return $this->positionKind;
+    }
+
+    /**
+     * @param mixed $positionKind
+     */
+    public function setPositionKind($positionKind)
+    {
+        $this->positionKind = $positionKind;
     }
 }
