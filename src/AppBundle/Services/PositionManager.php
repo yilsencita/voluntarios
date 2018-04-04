@@ -26,4 +26,10 @@ class PositionManager
         return $this->entityManager->getRepository('AppBundle:Position')->findAll();
     }
 
+    public function savePosition($position)
+    {
+        $this->entityManager->persist($position);
+        $this->entityManager->flush();
+    }
+
 }
