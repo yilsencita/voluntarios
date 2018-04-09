@@ -45,3 +45,9 @@ services:
         public: true
         arguments:
             - '@doctrine.orm.entity_manager'
+
+    app.menu_builder:
+        class: AppBundle\Menu\MenuBuilder
+        arguments: ["@knp_menu.factory"]
+        tags:
+            - {name: knp_menu.menu_builder, method: createMainMenu, alias: main}

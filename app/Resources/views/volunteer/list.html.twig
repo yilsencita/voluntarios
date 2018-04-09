@@ -4,6 +4,7 @@
     {{ title }}
 {% endblock %}
 {% block body %}
+    <a href="{{ path('viewVolunteerForm') }}">Create Volunteer</a>
     {% for volunteer in list %}
         <li>{% include 'volunteer/abstractVolunteer.html.twig' with {'volunteer' : volunteer} %}</li>
     {% endfor %}
