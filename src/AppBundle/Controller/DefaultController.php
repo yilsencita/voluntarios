@@ -2,10 +2,14 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Position;
 use AppBundle\Entity\Volunteer;
 use AppBundle\Lib\StatusVolunteer;
 use Doctrine\DBAL\Types\ArrayType;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMInvalidArgumentException;
+use Doctrine\ORM\TransactionRequiredException;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -98,6 +102,12 @@ class DefaultController extends Controller
             ->add('Email', EmailType::class)
             ->add('Address', TextType::class)
             ->add('State', ChoiceType::class, array('choices' => StatusVolunteer::getStates()))
+            ->add('Position', EntityType::class, array(
+                'class' => Position::class,
+//                'choices' => $this->get('volunteers.position_manager')->positionsList(),
+                'choice_label' => 'ExtendedName'
+            ))
+//            ->add('Position', ChoiceType::class, array('choices' => $this->get('volunteers.position_manager')->positionsChoices()))
             ->getForm();
 
 //        $form->handleRequest($request);
@@ -111,8 +121,14 @@ class DefaultController extends Controller
     public function handleVolunteerFormAction(Request $request/*, $dni*/)
     {
         $dni = $request->request->get('form')['Dni'];
-        $volunteer = $this->get('doctrine.orm.entity_manager')->find(Volunteer::class, $dni);
-//        $volunteer = new Volunteer();
+        try {
+            if (!$volunteer = $this->get('doctrine.orm.entity_manager')->find(Volunteer::class, $dni)) {
+                $volunteer = new Volunteer();
+            }
+        }catch (\Exception $e) {
+            return $this->redirectToRoute('viewVolunteerForm');
+        }
+
         $form = $this->createFormBuilder($volunteer)
             ->add('Dni', TextType::class)
             ->add('Name', TextType::class)
@@ -122,7 +138,10 @@ class DefaultController extends Controller
             ->add('Email', EmailType::class)
             ->add('Address', TextType::class)
             ->add('State', ChoiceType::class, array('choices' => StatusVolunteer::getStates()))
-            ->
+            ->add('Position', EntityType::class, array(
+                'class' => Position::class,
+                'choice_label' => 'ExtendedName'
+            ))
             ->getForm();
 
         $form->handleRequest($request);

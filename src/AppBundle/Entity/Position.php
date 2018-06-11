@@ -50,6 +50,8 @@ class Position
      */
     private $positionKind;
 
+    private $extendedName;
+
     /**
      * @return mixed
      */
@@ -121,4 +123,14 @@ class Position
     {
         $this->positionKind = $positionKind;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getExtendedName()
+    {
+        return $this->getName().' '.$this->getShift();
+    }
+
+
 }

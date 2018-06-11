@@ -21,10 +21,25 @@ class PositionManager
     }
 
 
+    /**
+     * @return \AppBundle\Entity\Position[]
+     */
     public function positionsList()
     {
         return $this->entityManager->getRepository('AppBundle:Position')->findAll();
     }
+
+//    public function positionsChoices()
+//    {
+//        $arrayPositions = array();
+//        $positions = $this->positionsList();
+//
+//        foreach ($positions as $position) {
+//            $arrayPositions[$position->getName().$position->getShift()] = $position->getId();
+//        }
+//
+//        return $arrayPositions;
+//    }
 
     public function savePosition($position)
     {
