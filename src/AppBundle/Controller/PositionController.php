@@ -52,6 +52,21 @@ class PositionController extends Controller
     }
 
     /**
+     * @Route("/viewPosition/{extendedName}", name="viewPosition")
+     * @param Request $request
+     * @param $extendedName
+     */
+    public function viewPositionAction(Request $request, $extendedName)
+    {
+        /** @var Position $position */
+        if ($position = $this->get('volunteers.position_manager')->positionByExtendedName(urldecode ($extendedName))) {
+            return $this->render('position/view.html.twig', array('title' => $position->getExtendedName(),'position' => $position));
+        }
+
+        return $this->redirectToRoute('listPositions');
+    }
+
+    /**
      * @Route("/handlePositionForm", name="handlePositionForm")
      */
     public function handleVolunteerFormAction(Request $request)

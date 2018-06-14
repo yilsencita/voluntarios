@@ -7,5 +7,6 @@
     <a href="{{ path('viewPositionForm') }}">Create Position</a>
     {% for position in list %}
         <li>{% include 'position/abstractPosition.html.twig' with {'position' : position} %}</li>
+
     {% endfor %}
 {% endblock %}

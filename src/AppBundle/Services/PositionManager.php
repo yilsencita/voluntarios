@@ -9,7 +9,9 @@
 namespace AppBundle\Services;
 
 
+use AppBundle\Entity\Position;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\AST\Functions\ConcatFunction;
 
 class PositionManager
 {
@@ -45,6 +47,20 @@ class PositionManager
     {
         $this->entityManager->persist($position);
         $this->entityManager->flush();
+    }
+
+    public function positionByExtendedName($extendedName)
+    {
+        $qb = $this->entityManager
+            ->createQueryBuilder()
+            ->from('AppBundle:Position', 'p')
+            ->select('p')
+            ->where("CONCAT(p.name, ' ', p.shift) = \":extendedName\"")
+            ->setParameter('extendedName', $extendedName)
+            ;
+//        die($qb->getQuery()->getDQL() . $extendedName);
+
+        return $qb->getQuery()->getFirstResult();
     }
 
 }

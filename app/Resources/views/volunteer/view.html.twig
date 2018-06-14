@@ -19,6 +19,9 @@
     <li>{{ volunteer.Email }}</li>
     <li>{{ volunteer.Address }}</li>
     <li>{{ volunteer.State }}</li>
+    {% if volunteer.Position %}
+        <li>{{ volunteer.Position.ExtendedName }}</li>
+    {% endif %}
 
     <a href="{{ path('viewVolunteerForm', {'dni' : volunteer.Dni}) }}"><input type="button" name="Edit" value="Edit"/></a>
     {#<input type="submit" name="Save" value="Save"/>#}
