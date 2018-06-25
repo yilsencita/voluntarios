@@ -59,7 +59,7 @@ class PositionController extends Controller
     public function viewPositionAction(Request $request, $extendedName)
     {
         /** @var Position $position */
-        if ($position = $this->get('volunteers.position_manager')->positionByExtendedName(urldecode ($extendedName))) {
+        if ($position = $this->get('volunteers.position_manager')->positionByExtendedName($extendedName)) {
             return $this->render('position/view.html.twig', array('title' => $position->getExtendedName(),'position' => $position));
         }
 

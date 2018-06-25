@@ -52,15 +52,13 @@ class PositionManager
     public function positionByExtendedName($extendedName)
     {
         $qb = $this->entityManager
-            ->createQueryBuilder()
-            ->from('AppBundle:Position', 'p')
-            ->select('p')
-            ->where("CONCAT(p.name, ' ', p.shift) = \":extendedName\"")
+            ->getRepository('AppBundle:Position')
+            ->createQueryBuilder('p')
+            ->where("CONCAT(p.name, ' ', p.shift) = :extendedName")
             ->setParameter('extendedName', $extendedName)
             ;
-//        die($qb->getQuery()->getDQL() . $extendedName);
 
-        return $qb->getQuery()->getFirstResult();
+        return $qb->getQuery()->getSingleResult();
     }
 
 }

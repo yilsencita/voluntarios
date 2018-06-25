@@ -7,4 +7,8 @@
 {% block body %}
     <li>{{ position.Name }}</li>
     <li>{{ position.Shift }}</li>
+
+    {% for volunteer in position.volunteers %}
+        <li>{% include 'volunteer/abstractVolunteer.html.twig' with {'volunteer' : volunteer} %}</li>
+    {% endfor %}
 {% endblock %}
