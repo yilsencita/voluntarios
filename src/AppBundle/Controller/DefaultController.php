@@ -19,6 +19,8 @@ use Symfony\Component\Routing\Annotation\Route;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\HttpFoundation\File\File;
 
 class DefaultController extends Controller
 {
@@ -113,6 +115,45 @@ class DefaultController extends Controller
 //        $form->handleRequest($request);
         return $this->render('volunteer/viewForm.html.twig', array('form' => $form->createView()));
     }
+
+    /**
+     * @Route("/loadVolunteersForm/", name="loadVolunteersForm")
+     */
+    public function loadVolunteersFormAction()
+    {
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('handleLoadVolunteersForm'))
+            ->add('File', FileType::class, array('label' => 'Load excel file'))
+            ->getForm();
+
+        return $this->render('volunteer/loadForm.html.twig', array('form' => $form->createView()));
+    }
+
+    /**
+     * @Route("/handleLoadVolunteersForm/", name="handleLoadVolunteersForm")
+     */
+    public function handleLoadVolunteersFormAction(Request $request)
+    {
+        $form = $this->createFormBuilder()
+            ->add('File', FileType::class, array('label' => 'Load excel file'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $file = $form->get('File');
+            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileData */
+            $fileData = $file->getData();
+            $fileData->
+//            echo get_class($file);
+//            var_dump($file->getData());
+//            var_dump($file);
+            die('Hola mundo');
+        }
+        die('Adiós mundo');
+
+    }
+
 
     /**
 //     * @Route("/handleVolunteerForm/{dni}", name="handleVolunteerForm")
