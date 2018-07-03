@@ -51,3 +51,10 @@ services:
         arguments: ["@knp_menu.factory"]
         tags:
             - {name: knp_menu.menu_builder, method: createMainMenu, alias: main}
+
+    volunteers.volunteersLoad_service:
+        class: AppBundle\Services\VolunteersLoadService
+        public: true
+        arguments:
+            - '@volunteers.volunteer_manager'
+            - '@phpexcel'

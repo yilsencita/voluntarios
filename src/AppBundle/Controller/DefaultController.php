@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 //use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -142,9 +143,13 @@ class DefaultController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             $file = $form->get('File');
-            /** @var Symfony\Component\HttpFoundation\File\UploadedFile $fileData */
+
+            /** @var UploadedFile $fileData */
             $fileData = $file->getData();
-            $fileData->
+
+            $this->get('volunteers.volunteersLoad_service')->volunteersLoadFromExcel($fileData);
+
+//            echo $fileData->guessExtension();
 //            echo get_class($file);
 //            var_dump($file->getData());
 //            var_dump($file);
